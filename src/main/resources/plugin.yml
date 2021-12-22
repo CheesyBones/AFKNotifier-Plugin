@@ -1,0 +1,21 @@
+name: Afknotifier
+version: '${project.version}'
+main: me.cheesybones.afknotifier.Afknotifier
+api-version: 1.18
+authors: [ CheesyBones ]
+description: Contains features that lets other players know who is afk on the server.
+commands:
+  afklist:
+    usage: /<command>
+    description: Gives a list of AFK players
+  timeafk:
+    usage: /<command> PlayerName
+    description: Gives the amount of time in seconds supplied user has been AFK for
+  silentafk:
+    aliases: [silentmeafk, silentgoafk]
+    usage: /<command>
+    description: Sets your own presence to AFK quietly
+  setafk:
+    aliases: [announcemeafk,goafk,meafk]
+    usage: /<command>
+    description: Sets your own presence to AFK but announces it to the whole server through chat

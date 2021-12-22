@@ -1,0 +1,4 @@
+send-chat-message-afk: true # Send chat message when one is considered AFK
+send-chat-message-return: true # Send chat message when one returns
+afk-seconds: 10 # Time it takes to be considered AFK (seconds)
+check-interval: 10 # Interval at which the plugin checks if players are afk (seconds)
