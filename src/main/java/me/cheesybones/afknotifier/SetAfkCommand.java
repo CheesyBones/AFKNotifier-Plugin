@@ -8,10 +8,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class SetAfkCommand implements CommandExecutor {
-    private Afknotifier plugin;
+    private Main plugin;
     private boolean isQuiet;
 
-    public SetAfkCommand(Afknotifier plugin, boolean isQuiet){
+    public SetAfkCommand(Main plugin, boolean isQuiet){
         this.plugin = plugin;
         this.isQuiet = isQuiet;
     }
@@ -25,7 +25,7 @@ public class SetAfkCommand implements CommandExecutor {
 
         String playerName = sender.getName();
 
-        plugin.playerMoveListener.remoteAfk(playerName,isQuiet);
+        plugin.playerWatcher.remoteAfk(playerName,isQuiet);
 
         return true;
     }

@@ -1,6 +1,6 @@
 name: Afknotifier
 version: '${project.version}'
-main: me.cheesybones.afknotifier.Afknotifier
+main: me.cheesybones.afknotifier.Main
 api-version: 1.18
 authors: [ CheesyBones ]
 description: Contains features that lets other players know who is afk on the server.

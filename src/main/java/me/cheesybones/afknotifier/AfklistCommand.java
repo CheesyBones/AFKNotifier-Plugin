@@ -1,32 +1,29 @@
 package me.cheesybones.afknotifier;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 
 import java.util.Hashtable;
 import java.util.List;
 
 public class AfklistCommand implements CommandExecutor {
 
-    private Afknotifier plugin;
+    private Main plugin;
 
-    public AfklistCommand(Afknotifier afkNotifier){
+    public AfklistCommand(Main afkNotifier){
         this.plugin = afkNotifier;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Hashtable<String,PlayerInfo> playerMoveTimes = plugin.playerMoveListener.playerMoveTimes;
-        List<PlayerInfo> afkPlayers = plugin.playerMoveListener.afkPlayers;
+        Hashtable<String,PlayerInfo> playerMoveTimes = plugin.playerWatcher.playerMoveTimes;
+        List<PlayerInfo> afkPlayers = plugin.playerWatcher.afkPlayers;
         if(args.length == 0){
             sender.sendMessage(buildAfkPlayerString(afkPlayers));
         }else{
-            if(args.length >= plugin.playerMoveListener.playerMoveTimes.size()){
+            if(args.length >= playerMoveTimes.size()){
                 sender.sendMessage(buildAfkPlayerString(afkPlayers));
             }else{
                 StringBuilder sb = new StringBuilder();

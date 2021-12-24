@@ -6,10 +6,11 @@ import java.time.LocalTime;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class Afknotifier extends JavaPlugin {
+public final class Main extends JavaPlugin {
 
     private FileConfiguration config = getConfig();
-    PlayerMoveListener playerMoveListener = new PlayerMoveListener(this);
+    PlayerWatcher playerWatcher = new PlayerWatcher(this);
+    PlayerMoveListener playerMoveListener = new PlayerMoveListener(this,playerWatcher);
 
     @Override
     public void onEnable() {
@@ -17,7 +18,7 @@ public final class Afknotifier extends JavaPlugin {
 
         registerEvents();
         registerCommands();
-        playerMoveListener.startPlayerWatcher();
+
     }
 
     @Override

@@ -10,15 +10,15 @@ import java.util.Hashtable;
 
 public class TimeAfkCommand implements CommandExecutor {
 
-    private Afknotifier plugin;
+    private Main plugin;
 
-    public TimeAfkCommand(Afknotifier afknotifier){
+    public TimeAfkCommand(Main afknotifier){
         this.plugin = afknotifier;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Hashtable<String, PlayerInfo> playerMoveTimes = plugin.playerMoveListener.playerMoveTimes;
+        Hashtable<String, PlayerInfo> playerMoveTimes = plugin.playerWatcher.playerMoveTimes;
         if(args.length == 0){
             sender.sendMessage(ChatColor.RED + "You must provide a name of a user for this command.");
             return true;
