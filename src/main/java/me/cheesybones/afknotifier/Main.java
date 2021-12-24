@@ -1,8 +1,5 @@
 package me.cheesybones.afknotifier;
 
-import java.util.*;
-import java.time.LocalTime;
-
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -10,7 +7,8 @@ public final class Main extends JavaPlugin {
 
     private FileConfiguration config = getConfig();
     PlayerWatcher playerWatcher = new PlayerWatcher(this);
-    PlayerMoveListener playerMoveListener = new PlayerMoveListener(this,playerWatcher);
+    PlayerListener playerListener = new PlayerListener(this,playerWatcher);
+    ScoreboardHandler scoreboardHandler = new ScoreboardHandler(this,playerWatcher);
 
     @Override
     public void onEnable() {
@@ -19,6 +17,8 @@ public final class Main extends JavaPlugin {
         registerEvents();
         registerCommands();
 
+        playerWatcher.startPlayerWatcher();
+        scoreboardHandler.startRunnable();
     }
 
     @Override
@@ -31,7 +31,7 @@ public final class Main extends JavaPlugin {
     }
 
     private void registerEvents() {
-        getServer().getPluginManager().registerEvents(playerMoveListener, this);
+        getServer().getPluginManager().registerEvents(playerListener, this);
     }
 
     private void registerCommands(){

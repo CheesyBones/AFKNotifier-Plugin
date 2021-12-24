@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-public class PlayerMoveListener implements Listener {
+public class PlayerListener implements Listener {
     private Main plugin;
     public FileConfiguration config;
     private PlayerWatcher playerWatcher;
 
-    public PlayerMoveListener(Main afkNotifier, PlayerWatcher playerWatcher) {
+    public PlayerListener(Main afkNotifier, PlayerWatcher playerWatcher) {
         this.plugin = afkNotifier; this.config = plugin.getConfigFile();
         this.playerWatcher = playerWatcher;
     }
