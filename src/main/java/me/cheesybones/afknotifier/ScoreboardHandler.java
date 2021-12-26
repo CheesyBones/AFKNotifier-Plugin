@@ -33,7 +33,7 @@ public class ScoreboardHandler {
                     afkTeam = scoreboard.registerNewTeam("AFK");
                 }
 
-                afkTeam.setPrefix(ChatColor.BOLD + "" + ChatColor.AQUA + "AFK ");
+                afkTeam.setPrefix(ChatColor.BOLD + "" + ChatColor.AQUA + "[AFK] ");
 
                 Hashtable<String, PlayerInfo> playerMoveTimes = playerWatcher.playerMoveTimes;
 
@@ -49,6 +49,16 @@ public class ScoreboardHandler {
                 }
             }
         },0,40);
+    }
+
+    public void removeAfkPrefix(String playerName){
+        Scoreboard scoreboard = plugin.getServer().getScoreboardManager().getMainScoreboard();
+        Team afkTeam = scoreboard.getTeam("AFK");
+        if(afkTeam == null){
+            return;
+        }
+
+        afkTeam.removeEntry(playerName);
     }
 
 }

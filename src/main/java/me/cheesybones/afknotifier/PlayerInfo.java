@@ -2,15 +2,15 @@ package me.cheesybones.afknotifier;
 
 public class PlayerInfo {
     public String username;
-    public int lastMoveTime;
-    public int timeSinceLastMove;
+    public long lastMoveTime;
+    public long timeSinceLastMove;
     public boolean isAfk;
     public boolean lastAfkCheck;
 
-    public PlayerInfo(String aUsername, int aLastMoveTime, boolean aIsAfk){
-        this.username = aUsername;
-        this.lastMoveTime = aLastMoveTime;
-        this.isAfk = aIsAfk;
+    public PlayerInfo(String username, long lastMoveTime, boolean isAfk){
+        this.username = username;
+        this.lastMoveTime = lastMoveTime;
+        this.isAfk = isAfk;
 
         this.timeSinceLastMove = 0;
         this.lastAfkCheck = this.isAfk;

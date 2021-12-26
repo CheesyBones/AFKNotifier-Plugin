@@ -37,29 +37,12 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        PlayerInfo playerInfo = buildPlayerInfo(event);
-        playerWatcher.playerMoveTimes.put(playerInfo.username, playerInfo);
+        playerWatcher.onPlayerJoin(event.getPlayer());
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        String playerName = event.getPlayer().getName();
-        playerWatcher.playerMoveTimes.remove(playerName);
+        playerWatcher.onPlayerQuit(event.getPlayer());
     }
-
-    private PlayerInfo buildPlayerInfo(PlayerJoinEvent event) {
-        String playerName = event.getPlayer().getName();
-        int currentTimeSeconds = LocalTime.now().toSecondOfDay();
-
-        PlayerInfo playerInfo = new PlayerInfo(playerName, currentTimeSeconds, false);
-
-        return playerInfo;
-    }
-
-
-
-
-
-
 
 }

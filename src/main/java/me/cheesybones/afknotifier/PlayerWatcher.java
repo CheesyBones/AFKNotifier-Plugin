@@ -1,8 +1,11 @@
 package me.cheesybones.afknotifier;
 
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import java.time.Instant;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -22,11 +25,11 @@ public class PlayerWatcher {
     }
 
     public PlayerInfo moveUpdatePlayerInfo(PlayerMoveEvent event) {
-        int currentTimeSeconds = LocalTime.now().toSecondOfDay();
+        long currentTime = Instant.now().toEpochMilli();
         String username = event.getPlayer().getName();
 
         PlayerInfo playerInfo = playerMoveTimes.get(username);
-        playerInfo.lastMoveTime = currentTimeSeconds;
+        playerInfo.lastMoveTime = currentTime;
         playerInfo.lastAfkCheck = playerInfo.isAfk;
         playerInfo.isAfk = false;
 
@@ -47,7 +50,7 @@ public class PlayerWatcher {
         afkPlayers.add(playerInfo);
 
         if (config.getBoolean("send-chat-message-afk")) {
-            plugin.getServer().broadcastMessage(playerName + " Is AFK.");
+            plugin.getServer().broadcastMessage(playerName + " is now " + ChatColor.AQUA + " AFK.");
         }
     }
 
@@ -57,8 +60,27 @@ public class PlayerWatcher {
         playerMoveTimes.put(playerName,playerInfo);
         afkPlayers.add(playerInfo);
         if(!isQuiet){
-            plugin.getServer().broadcastMessage(playerName + " Is AFK.");
+            plugin.getServer().broadcastMessage(playerName + " is now " + ChatColor.AQUA + " AFK.");
         }
+    }
+
+    public void onPlayerJoin(Player player){
+        PlayerInfo playerInfo = buildPlayerInfo(player.getName());
+        playerMoveTimes.put(playerInfo.username, playerInfo);
+    }
+
+    public void onPlayerQuit(Player player){
+        String playerName = player.getName();
+
+        playerMoveTimes.remove(playerName);
+    }
+
+    private PlayerInfo buildPlayerInfo(String playerName) {
+        long currentTime = Instant.now().toEpochMilli();
+
+        PlayerInfo playerInfo = new PlayerInfo(playerName, currentTime, false);
+
+        return playerInfo;
     }
 
     public void startPlayerWatcher() {
@@ -66,6 +88,7 @@ public class PlayerWatcher {
 
         int tickPeriod = config.getInt("check-period") * 20;
         int afkSeconds = config.getInt("afk-seconds");
+        int afkMillis = afkSeconds * 1000;
 
         plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
             @Override
@@ -76,10 +99,10 @@ public class PlayerWatcher {
                 while (enumeration.hasMoreElements()) {
                     String playerName = enumeration.nextElement();
                     PlayerInfo playerInfo = playerMoveTimes.get(playerName);
-                    playerInfo.timeSinceLastMove = LocalTime.now().toSecondOfDay() - playerInfo.lastMoveTime;
+                    playerInfo.timeSinceLastMove = Instant.now().toEpochMilli() - playerInfo.lastMoveTime;
                     playerInfo.lastAfkCheck = playerInfo.isAfk;
 
-                    if (!playerInfo.lastAfkCheck && !playerInfo.isAfk && playerInfo.timeSinceLastMove > afkSeconds) {
+                    if (!playerInfo.lastAfkCheck && !playerInfo.isAfk && playerInfo.timeSinceLastMove > afkMillis) {
                         playerInfo.isAfk = true;
                         playerMoveTimes.put(playerName, playerInfo);
                         System.out.println(playerName + " Is AFK.");
